@@ -4,15 +4,38 @@ const cc = require('cryptocompare');
 
 export const AppContext = React.createContext();
 
+const MAX_FAVORITES = 10;
+
 export class AppProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 'dashboard',
       ...this.savedSettings(),
+      favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
       setPage: this.setPage,
+      addCoin: this.addCoin,
+      removeCoin: this.removeCoin,
+      isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
     }
+  }
+
+  addCoin = (key) => {
+    const favorites = [...this.state.favorites];
+    if (favorites.length < MAX_FAVORITES) {
+      favorites.push(key);
+      this.setState({ favorites });
+    }
+  }
+
+  removeCoin = (key) => {
+    const favorites = this.state.favorites.filter(e => e !== key);
+    this.setState({ favorites });
+  }
+
+  isInFavorites = (key) => {
+    return this.state.favorites.includes(key);
   }
 
   componentDidMount = () => {
@@ -21,7 +44,7 @@ export class AppProvider extends React.Component {
 
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
-    this.setState({coinList});
+    this.setState({ coinList });
   }
 
   confirmFavorites = () => {
@@ -39,7 +62,7 @@ export class AppProvider extends React.Component {
     if (!cryptoDashData) {
       return { page: 'settings', firstVisit: true }
     }
-    return { };
+    return {};
   }
 
   setPage = page => this.setState({ page });
