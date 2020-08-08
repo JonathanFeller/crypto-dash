@@ -1,4 +1,4 @@
-export default {
+export default historical => ({
   title: {
     text: ''
   },
@@ -10,6 +10,7 @@ export default {
   },
 
   xAxis: {
+    type: 'datetime',
     accessibility: {
       rangeDescription: 'Range: 2010 to 2017'
     }
@@ -30,10 +31,7 @@ export default {
     }
   },
 
-  series: [{
-    name: 'Installation',
-    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-  }],
+  series: historical,
 
   responsive: {
     rules: [{
@@ -50,4 +48,4 @@ export default {
     }]
   }
 
-};
+});
