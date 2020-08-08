@@ -1,8 +1,9 @@
 import React from 'react';
 import { SelectableTile } from '../Shared/Tile';
-import { fontSize3, fontSizeBig } from '../Shared/Styles';
+import { fontSize3, fontSizeBig, greenBoxShadow } from '../Shared/Styles';
 import styled, { css } from 'styled-components';
 import { CoinHeaderGridStyled } from '../Settings/CoinHeaderGrid';
+import { AppContext } from '../App/AppProvider';
 
 const JustifyRight = styled.div`
   justify-self: right;
@@ -35,6 +36,11 @@ const PriceTileStyled = styled(SelectableTile)`
     grid-template-columns: repeat(3, 1fr);
     justify-items: right;
   `}
+
+  ${props => props.currentFavorite && css`
+    ${greenBoxShadow}
+    pointer-events: none;
+  `}
 `;
 
 const ChangePercent = ({ data }) => (
@@ -45,8 +51,11 @@ const ChangePercent = ({ data }) => (
   </JustifyRight>
 );
 
-const PriceTile = ({ sym, data }) => (
-  <PriceTileStyled>
+const PriceTile = ({ sym, data, currentFavorite, setCurrentFavorite }) => (
+  <PriceTileStyled 
+    onClick={setCurrentFavorite} 
+    currentFavorite={currentFavorite}
+  >
     <CoinHeaderGridStyled>
       <div> {sym} </div>
       <ChangePercent data={data} />
@@ -57,8 +66,12 @@ const PriceTile = ({ sym, data }) => (
   </PriceTileStyled>
 );
 
-const PriceTileCompact = ({ sym, data }) => (
-  <PriceTileStyled compact>
+const PriceTileCompact = ({ sym, data, currentFavorite, setCurrentFavorite }) => (
+  <PriceTileStyled 
+    onClick={setCurrentFavorite}
+    currentFavorite={currentFavorite}
+    compact 
+  >
     <JustifyLeft> {sym} </JustifyLeft>
     <ChangePercent data={data} />
     <div>
@@ -72,7 +85,15 @@ export default ({ price, index }) => {
   const data = price[sym]['USD'];
   const TileClass = index < 5 ? PriceTile : PriceTileCompact;
   return (
-    <TileClass sym={sym} data={data}>
-    </TileClass>
+    <AppContext.Consumer>
+      {({ currentFavorite, setCurrentFavorite }) => (
+        <TileClass 
+          sym={sym} 
+          data={data} 
+          currentFavorite={currentFavorite === sym}
+          setCurrentFavorite={() => setCurrentFavorite(sym)}
+        ></TileClass>
+      )}
+    </AppContext.Consumer>
   );
 };
