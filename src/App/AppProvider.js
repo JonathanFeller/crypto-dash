@@ -51,7 +51,8 @@ export class AppProvider extends React.Component {
 
   fetchPrices = async () => {
     if (this.state.firstVisit) return;
-    const prices = await this.prices();
+    let prices = await this.prices();
+    prices = prices.filter(price => Object.keys(price).length);
     this.setState({prices});
   }
 
@@ -59,7 +60,7 @@ export class AppProvider extends React.Component {
     let returnData = [];
     for (let i=0; i < this.state.favorites.length; i++) {
       try {
-        const priceData = await cc.priceFull(this.state.favorites[i], 'BRL');
+        const priceData = await cc.priceFull(this.state.favorites[i], 'USD');
         returnData.push(priceData);
       } catch (err) {
         console.warn('Fetch price error: ', err);
