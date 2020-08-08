@@ -11,10 +11,10 @@ export const CoinGridStyled = styled.div`
 `;
 
 const getCoinsToDisplay = (coinList, topSection, favorites) => {
-  return topSection ? favorites :  Object.keys(coinList).slice(0, 100);
+  return topSection ? favorites : Object.keys(coinList).slice(0, 100);
 }
 
-export default ({topSection}) => {
+export default ({ topSection }) => {
   return (
     <AppContext.Consumer>
       {({ coinList, favorites }) =>

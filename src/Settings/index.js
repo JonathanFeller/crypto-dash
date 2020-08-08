@@ -8,7 +8,7 @@ export default () => {
   return (
     <Page name="settings">
       <Welcome />
-      <CoinGrid topSection/>
+      <CoinGrid topSection />
       <ConfirmButton />
       <CoinGrid />
     </Page>

@@ -11,8 +11,8 @@ export class AppProvider extends React.Component {
     super(props);
     this.state = {
       page: 'dashboard',
-      ...this.savedSettings(),
       favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
+      ...this.savedSettings(),
       setPage: this.setPage,
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
@@ -53,7 +53,7 @@ export class AppProvider extends React.Component {
       page: 'dashboard',
     });
     localStorage.setItem('cryptoDash', JSON.stringify({
-      test: 'hello there'
+      favorites: this.state.favorites
     }));
   }
 
@@ -62,7 +62,8 @@ export class AppProvider extends React.Component {
     if (!cryptoDashData) {
       return { page: 'settings', firstVisit: true }
     }
-    return {};
+    const { favorites } = cryptoDashData;
+    return { favorites };
   }
 
   setPage = page => this.setState({ page });

@@ -4,7 +4,7 @@ import { SelectableTile, DeletableTile, DisabledTile } from '../Shared/Tile';
 import CoinHeaderGrid from './CoinHeaderGrid';
 import CoinImage from '../Shared/CoinImage';
 
-const clickCoinHandler = (topSection, coinKey, addCoin, removeCoin) => 
+const clickCoinHandler = (topSection, coinKey, addCoin, removeCoin) =>
   topSection ? () => removeCoin(coinKey) : () => addCoin(coinKey);
 
 export default ({ coinKey, topSection }) => {
