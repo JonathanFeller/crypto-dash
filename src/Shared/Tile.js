@@ -7,7 +7,7 @@ export const Tile = styled.div`
   padding: 10px;
 `;
 
-export const SelectableTyle = styled(Tile)`
+export const SelectableTile = styled(Tile)`
   &:hover {
     cursor: pointer;
     ${greenBoxShadow}
